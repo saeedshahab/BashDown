@@ -1,0 +1,10 @@
+server:
+  rootPath: "/api/*"
+
+databaseHost: "localhost"
+databasePort: 27017
+databaseName: "bashdown"
+databaseClass: "com.saeedshahab.bashdown.wrappers.mongo.MongoWrapper"
+
+logging:
+  level: DEBUG
