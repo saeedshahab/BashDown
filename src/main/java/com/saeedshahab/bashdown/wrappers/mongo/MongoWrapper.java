@@ -30,12 +30,12 @@ public class MongoWrapper implements DatabaseWrapper<MongoDatabase> {
     @Override
     public MongoDatabase getDatabase() {
         if (Objects.isNull(mongoConnection)) {
-            mongoConnection = new MongoConnection(
+            mongoConnection = MongoConnection.newConnection(
                     configuration.getDatabaseHost(),
                     configuration.getDatabasePort(),
                     configuration.getDatabaseName());
         }
-        return mongoConnection.connection();
+        return mongoConnection.getConnection();
     }
 
     private <T> MongoCollection<T> getCollection(Class<T> type) {

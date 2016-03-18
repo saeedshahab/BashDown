@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static com.saeedshahab.bashdown.models.User.Roles.ADMIN;
 
@@ -36,8 +35,15 @@ public class BashResource {
     @Path("/create")
     @RolesAllowed(ADMIN)
     public Response createBash(@Valid Bash bash) throws JsonProcessingException {
-        Bash bashOut = bashRepository.create(bash);
-        return Response.status(Response.Status.CREATED).entity(objectMapper.writeValueAsString(bashOut)).build();
+        Optional<Bash> bashOut = bashRepository.create(bash);
+
+        if (bashOut.isPresent()){
+            return Response.status(Response.Status.CREATED).entity(objectMapper.writeValueAsString(bashOut)).build();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Collections.singletonMap("error", "Sorry, Failed to create Bash. Please try again in some time"))
+                    .build();
+        }
     }
 
     @GET
@@ -78,9 +84,18 @@ public class BashResource {
     @Path("/id/{id}")
     @RolesAllowed(ADMIN)
     public Response deleteBashWithId(@PathParam("id") String id) {
-        Map<String, Object> response = bashRepository.delete(id);
-        return Response.ok(response).build();
+        Long response = bashRepository.delete(id);
 
+        if (response > 0L) {
+            return Response.ok(Collections.singletonMap("success", String.format("Deleted bash with id %s", id))).build();
+        } else if (response == 0L) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(Collections.singletonMap("error", String.format("No bash found with id %s", id)))
+                    .build();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Collections.singletonMap("error", String.format("Sorry, Failed to delete Bash with id: %s. Please try again in some time", id)))
+                    .build();
+        }
     }
-
 }

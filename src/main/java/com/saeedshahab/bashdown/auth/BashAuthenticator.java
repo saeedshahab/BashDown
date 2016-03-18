@@ -17,8 +17,12 @@ public class BashAuthenticator implements Authenticator<BasicCredentials, User> 
 
     private static final Logger logger = LoggerFactory.getLogger(BashAuthenticator.class);
 
-    @Inject
     private UserRepository userRepository;
+
+    @Inject
+    public BashAuthenticator(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException {
@@ -27,13 +31,9 @@ public class BashAuthenticator implements Authenticator<BasicCredentials, User> 
         Map<String, Object> map = new HashMap<>();
         map.put("displayName", credentials.getUsername());
         map.put("password", User.sha1Hash(credentials.getPassword()));
-        try {
-            Optional<User> user = userRepository.search(map);
-            logger.debug("Search for type: {}, query: {}, result: {}", User.class, map, user);
-            return user;
-        } catch (Exception e) {
-            logger.error("Database operation failed to search for user with query: {}", map, e);
-        }
-        return Optional.absent();
+        Optional<User> user = userRepository.searchOne(map);
+        logger.debug("Search for type: {}, query: {}, result: {}", User.class, map, user);
+
+        return user;
     }
 }

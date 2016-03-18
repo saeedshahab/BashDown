@@ -20,18 +20,19 @@ public class UserRepository {
         this.databaseWrapper = databaseWrapper;
     }
 
-    public User create(User user) {
+    public Optional<User> create(User user) {
         user.setId(UUID.randomUUID().toString());
         try {
             databaseWrapper.create(user, User.class);
+            user.setPassword(null);
+            return Optional.of(user);
         } catch (Exception e) {
             logger.error("Database operation failed to create user: {}", user, e);
         }
-        user.setPassword(null);
-        return user;
+        return Optional.absent();
     }
 
-    public Optional<User> search(Map<String, Object> map) {
+    public Optional<User> searchOne(Map<String, Object> map) {
         try {
             List<User> userList = databaseWrapper.search(map, User.class);
             if (userList.size() > 0) {
@@ -48,8 +49,4 @@ public class UserRepository {
         }
         return Optional.absent();
     }
-
-//    public User addRolesToUser(List<String> roles) {
-//        return null;
-//    }
 }

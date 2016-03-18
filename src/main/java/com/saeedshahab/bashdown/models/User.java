@@ -86,11 +86,6 @@ public class User implements Principal {
     }
 
     @Override
-    public boolean implies(Subject subject) {
-        return false;
-    }
-
-    @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
@@ -111,17 +106,15 @@ public class User implements Principal {
         try {
             md = MessageDigest.getInstance("SHA1");
         } catch (NoSuchAlgorithmException e) {
-            md = null;
+            return null;
         }
 
         String hexStr = "";
-        if (Objects.nonNull(md)) {
-            md.reset();
-            md.update(input.getBytes());
-            byte[] digest = md.digest();
-            for (byte aDigest : digest) {
-                hexStr += Integer.toString((aDigest & 0xff) + 0x100, 16).substring(1);
-            }
+        md.reset();
+        md.update(input.getBytes());
+        byte[] digest = md.digest();
+        for (byte aDigest : digest) {
+            hexStr += Integer.toString((aDigest & 0xff) + 0x100, 16).substring(1);
         }
 
         return hexStr;

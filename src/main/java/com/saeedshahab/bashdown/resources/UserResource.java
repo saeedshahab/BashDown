@@ -34,15 +34,21 @@ public class UserResource {
     @Path("/create")
     @RolesAllowed(ADMIN)
     public Response createUser(@Valid User user) throws JsonProcessingException {
-        User userOut = userRepository.create(user);
-        return Response.status(Response.Status.CREATED).entity(objectMapper.writeValueAsString(userOut)).build();
+        Optional<User> userOut = userRepository.create(user);
+        if (userOut.isPresent()) {
+            return Response.status(Response.Status.CREATED).entity(objectMapper.writeValueAsString(userOut)).build();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Collections.singletonMap("error", "Sorry, Failed to create user. Please try again in some time"))
+                    .build();
+        }
     }
 
     @GET
     @Path("/{displayName}")
     @RolesAllowed(ADMIN)
     public Response lookupUser(@PathParam("displayName") String displayName) throws JsonProcessingException {
-        Optional<User> userOut = userRepository.search(Collections.singletonMap("displayName", displayName));
+        Optional<User> userOut = userRepository.searchOne(Collections.singletonMap("displayName", displayName));
         if (userOut.isPresent()) {
             return Response.ok(objectMapper.writeValueAsString(userOut.get())).build();
         } else {
