@@ -20,15 +20,16 @@ public class BashRepository {
         this.databaseWrapper = databaseWrapper;
     }
 
-    public Bash create(Bash bash) {
+    public Optional<Bash> create(Bash bash) {
         bash.setId(UUID.randomUUID().toString());
         bash.setActive(true);
         try {
             databaseWrapper.create(bash, Bash.class);
+            return Optional.of(bash);
         } catch (Exception e) {
             logger.error("Database operation failed to create bash: {}", bash, e);
         }
-        return bash;
+        return Optional.absent();
     }
 
     public Optional<Bash> getById(String id) {
@@ -46,29 +47,22 @@ public class BashRepository {
         } catch (Exception e) {
             logger.error("Database operation failed to search for bash with query: {}", map, e);
         }
-        return null;
+        return Collections.emptyList();
     }
 
-    public Map<String, Object> delete(String id) {
-        Long count = 0L;
+    public Long delete(String id) {
+        Long count;
+
         Map<String, Object> query = Collections.singletonMap("id", id);
         Map<String, Object> update = Collections.singletonMap("active", false);
-        Map<String, Object> map = new HashMap<>();
 
         try {
             count = databaseWrapper.findAndUpdate(query, update, Bash.class);
         } catch (Exception e) {
+            count = -1L;
             logger.error("Database operation failed to delete bash with query: {}, update: {}", query, update, e);
         }
 
-        if (count == 0L) {
-            map.put("status", "error");
-            map.put("message", String.format("No bash found with id %s", id));
-        } else {
-            map.put("status", "success");
-            map.put("message", String.format("Deleted bash with id %s", id));
-        }
-
-        return map;
+        return count;
     }
 }

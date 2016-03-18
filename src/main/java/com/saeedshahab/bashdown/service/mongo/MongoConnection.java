@@ -17,16 +17,19 @@ public class MongoConnection implements DatabaseConnection<MongoDatabase> {
     private final Integer databasePort;
     private final String databaseName;
 
-    public MongoConnection(String databaseHost, Integer databasePort, String databaseName) {
+    private MongoConnection(String databaseHost, Integer databasePort, String databaseName) {
         this.databaseHost = databaseHost;
         this.databasePort = databasePort;
         this.databaseName = databaseName;
     }
 
+    public static MongoConnection newConnection(String databaseHost, Integer databasePort, String databaseName) {
+        return new MongoConnection(databaseHost, databasePort, databaseName);
+    }
+
     private static MongoDatabase database;
 
-    @Override
-    public void connect() {
+    private void connect() {
         CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
                 MongoClient.getDefaultCodecRegistry(),
                 CodecRegistries.fromProviders(new JacksonCodecProvider(ObjectMapperFactory.createObjectMapper()))
@@ -39,7 +42,7 @@ public class MongoConnection implements DatabaseConnection<MongoDatabase> {
     }
 
     @Override
-    public MongoDatabase connection() {
+    public MongoDatabase getConnection() {
         if (Objects.isNull(database)) {
             connect();
         }
