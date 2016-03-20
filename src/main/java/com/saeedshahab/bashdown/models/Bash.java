@@ -17,6 +17,7 @@ public class Bash {
 
     private String id;
 
+    @NotNull
     @Size(min = 5, max = 32)
     private String title;
 

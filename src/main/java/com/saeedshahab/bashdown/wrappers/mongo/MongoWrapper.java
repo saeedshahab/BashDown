@@ -23,7 +23,7 @@ public class MongoWrapper implements DatabaseWrapper<MongoDatabase> {
     private final BashConfiguration configuration;
 
     @Inject
-    private MongoWrapper(BashConfiguration bashConfiguration) {
+    public MongoWrapper(BashConfiguration bashConfiguration) {
         this.configuration = bashConfiguration;
     }
 
@@ -88,5 +88,31 @@ public class MongoWrapper implements DatabaseWrapper<MongoDatabase> {
         logger.debug("Update for type: {}, query: {}, updateFields: {}, countUpdated: {}", type, query, updateFields, count);
 
         return count;
+    }
+
+    @Override
+    public <T> T deleteById(String id, Class<T> type) {
+        logger.debug("Delete for type: {}, id: {}", type, id);
+
+        T result = getCollection(type).findOneAndDelete(new Document("id", id));
+
+        logger.debug("Delete for type: {}, id: {}, result: {}", type, id, result);
+
+        return result;
+    }
+
+    @Override
+    public boolean health() {
+        try {
+            getDatabase().runCommand(new Document("ping", 1));
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public <T> void dropDatabase(Class<T> type) {
+        getCollection(type).drop();
     }
 }

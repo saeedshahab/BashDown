@@ -7,4 +7,14 @@ databaseName: "bashdown"
 databaseClass: "com.saeedshahab.bashdown.wrappers.mongo.MongoWrapper"
 
 logging:
-  level: DEBUG
+  level: INFO
+  loggers:
+    com.saeedshahab.bashdown: DEBUG
+  appenders:
+  - type: file
+    currentLogFilename: /var/log/BashDown.log
+    threshold: ALL
+    archive: true
+    archivedLogFilenamePattern: /var/log/BashDown-%d.log
+    archivedFileCount: 10
+  - type: console

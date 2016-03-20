@@ -1,5 +1,6 @@
 package com.saeedshahab.bashdown.core;
 
+import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -90,5 +91,14 @@ public class BashApplication extends Application<BashConfiguration> {
         filter.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*");
         filter.setInitParameter("allowedHeaders", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
         filter.setInitParameter("allowCredentials", "true");
+
+        environment.healthChecks().register("Database", new HealthCheck() {
+            @Override
+            protected Result check() throws Exception {
+                return locator.getService(DatabaseWrapper.class).health()
+                        ? Result.healthy()
+                        : Result.unhealthy("Database reports condition unhealthy!");
+            }
+        });
     }
 }

@@ -14,4 +14,10 @@ public interface DatabaseWrapper<U> {
     <T> List<T> search(Map<String, Object> query, Class<T> type);
 
     <T> Long findAndUpdate(Map<String, Object> query, Map<String, Object> updateFields, Class<T> type);
+
+    <T> T deleteById(String id, Class<T> type);
+
+    <T> void dropDatabase(Class<T> type);
+
+    boolean health();
 }
