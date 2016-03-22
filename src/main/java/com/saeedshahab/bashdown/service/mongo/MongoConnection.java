@@ -1,7 +1,6 @@
 package com.saeedshahab.bashdown.service.mongo;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
+import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
 import com.saeedshahab.bashdown.service.DatabaseConnection;
 import fr.javatic.mongo.jacksonCodec.JacksonCodecProvider;
@@ -9,6 +8,7 @@ import fr.javatic.mongo.jacksonCodec.ObjectMapperFactory;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 
+import java.util.Collections;
 import java.util.Objects;
 
 public class MongoConnection implements DatabaseConnection<MongoDatabase> {
@@ -37,7 +37,10 @@ public class MongoConnection implements DatabaseConnection<MongoDatabase> {
         MongoClientOptions clientOptions = MongoClientOptions.builder()
                 .codecRegistry(codecRegistry)
                 .build();
-        MongoClient mongo = new MongoClient(databaseHost + ":" + databasePort, clientOptions);
+        MongoClient mongo = new MongoClient(
+                new ServerAddress(databaseHost, databasePort),
+                Collections.singletonList(MongoCredential.createCredential(databaseName, databaseName, databaseName.toCharArray())),
+                clientOptions);
         database = mongo.getDatabase(databaseName);
     }
 

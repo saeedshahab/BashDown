@@ -33,7 +33,8 @@ public class MongoWrapper implements DatabaseWrapper<MongoDatabase> {
             mongoConnection = MongoConnection.newConnection(
                     configuration.getDatabaseHost(),
                     configuration.getDatabasePort(),
-                    configuration.getDatabaseName());
+                    configuration.getDatabaseName()
+            );
         }
         return mongoConnection.getConnection();
     }

@@ -1,8 +1,8 @@
 server:
   rootPath: "/api/*"
 
-databaseHost: "localhost"
-databasePort: 27017
+databaseHost: "ds053944.mlab.com"
+databasePort: 53944
 databaseName: "bashdown"
 databaseClass: "com.saeedshahab.bashdown.wrappers.mongo.MongoWrapper"
 

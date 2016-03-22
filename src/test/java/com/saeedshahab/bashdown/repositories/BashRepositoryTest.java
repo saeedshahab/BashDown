@@ -8,11 +8,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyMapOf;
@@ -40,7 +36,7 @@ public class BashRepositoryTest {
     public void testCreatePass() throws Exception {
         String title = "Bash";
         String description = "description";
-        LocalDateTime dateTime = LocalDateTime.now();
+        Date dateTime = new Date();
         String image = "imageURL";
         String imageTitle = "imageTitle";
         String imageDescription = "imageDescription";

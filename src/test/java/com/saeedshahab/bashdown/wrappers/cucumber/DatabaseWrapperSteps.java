@@ -27,6 +27,7 @@ public class DatabaseWrapperSteps {
     public DatabaseWrapperSteps() throws Exception {
         ObjectMapper mapper = Jackson.newObjectMapper(new YAMLFactory());
         BashConfiguration bashConfiguration = mapper.readValue(Files.readAllBytes(Paths.get("local.yml")), BashConfiguration.class);
+
         databaseWrapper = new MongoWrapper(bashConfiguration);
     }
 

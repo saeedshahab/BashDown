@@ -3,7 +3,6 @@ package com.saeedshahab.bashdown.core;
 import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.saeedshahab.bashdown.auth.BashAuthenticator;
 import com.saeedshahab.bashdown.models.User;
 import com.saeedshahab.bashdown.repositories.BashRepository;
@@ -55,7 +54,6 @@ public class BashApplication extends Application<BashConfiguration> {
                 ).forEach(environment.jersey()::register);
 
         ObjectMapper mapper = Jackson.newObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
         Class<?> databaseWrapper = Class.forName(configuration.getDatabaseClass());
