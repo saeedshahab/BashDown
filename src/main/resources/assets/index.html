@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Bashdown</title>
-</head>
-<body>
-    Bashdown goes here!
-</body>
+<html lang="en" data-ng-app="bashdownApp">
+    <head>
+        <meta charset="UTF-8">
+        <title>BashDown</title>
+        <link rel="stylesheet" href="lib/angular/angular-material.css" />
+        <link rel="stylesheet" href="lib/style.css" />
+    </head>
+    <body data-ng-controller="BashController as bash">
+        <md-menu data-md-position-mode="target-left target">
+            <md-button aria-label="Open menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <md-icon data-md-menu-origin data-md-svg-icon="lib/more_vert.svg"></md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ng-click="bash.createBash($event)">
+                        <div layout="row" flex>
+                            <p flex>Open Big Bash</p>
+                        </div>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <div id="container">
+            <div id="no-bash" data-ng-if="bash.active.length == 0">No active bash exists</div>
+            <div id="active-bash" data-ng-if="bash.active.length > 0">
+                <div data-ng-repeat="aBash in bash.active" data-ng-if="bash.isCurrentBashAtIndex($index)">
+                    <div data-ng-if="aBash.active">
+                        <div class="center" id="countdown">{{ bash.countdownTimer[0] }}</div>
+                        <div class="center" id="heading">{{ aBash.title }}</div>
+                        <div id="image-name-title">
+                            <div class="center" id="image"><img data-ng-if="aBash.image != null" data-ng-src="{{ aBash.image }}" height="128px" width="128px" /></div>
+                            <div class="center" id="name">{{ aBash.imageTitle }}</div>
+                            <div class="center" id="name-title">{{ aBash.imageDescription }}</div>
+                        </div>
+                    </div>
+                    <p class="center" id="text">{{ aBash.description }}</p>
+                    <div class="center" id="date">{{ bash.processDateTime(aBash.dateTime) }}</div>
+                </div>
+            </div>
+        </div>
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular/angular-aria.js"></script>
+        <script src="lib/angular/angular-animate.js"></script>
+        <script src="lib/angular/angular-material.js"></script>
+        <script src="lib/script.js"></script>
+    </body>
 </html>

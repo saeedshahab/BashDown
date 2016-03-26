@@ -1,0 +1,89 @@
+<md-dialog aria-label="Big Bash" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Big Bash</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="createBash.close()">
+                    <md-icon md-svg-src="lib/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab data-ng-repeat="activeBash in createBash.activeBash" label="# {{ activeBash.id.substring(activeBash.id.length - 4, activeBash.id.length) }}" data-md-on-select="createBash.onSelectBash(activeBash)" data-md-on-deselect="createBash.onDeselectBash(activeBash)">
+                    <md-content layout="row">
+                        <div class="md-dialog-content" layout="column">
+                            <md-input-container>
+                                <label>Title of the bash</label>
+                                <textarea data-ng-model="activeBash.title" required data-md-minlength="5" data-md-maxlength="32"></textarea>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Description of the bash</label>
+                                <textarea data-ng-model="activeBash.description" data-md-maxlength="256"></textarea>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Date & time of the bash</label>
+                                <textarea data-ng-model="activeBash.dateTime" data-md-maxlength="256"></textarea>
+                            </md-input-container>
+                            <!--<md-datepicker data-ng-model="activeBash.dateTime" required placeholder="Date & time of the bash"></md-datepicker>-->
+                        </div>
+                        <div class="md-dialog-content" layout="column">
+                            <md-input-container>
+                                <label>Image URL</label>
+                                <textarea data-ng-model="activeBash.image"></textarea>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Title of the image</label>
+                                <textarea data-ng-model="activeBash.imageTitle"></textarea>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Description of the image</label>
+                                <textarea data-ng-model="activeBash.imageDescription" data-md-maxlength="256"></textarea>
+                            </md-input-container>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="+ add" data-md-on-select="createBash.onSelectBash(createBash)" data-md-on-deselect="createBash.onDeselectBash(createBash)">
+                    <md-content layout="row">
+                        <div class="md-dialog-content" layout="column">
+                            <md-input-container>
+                                <label>Title of the bash</label>
+                                <textarea data-ng-model="createBash.title" required data-md-minlength="5" data-md-maxlength="32"></textarea>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Description of the bash</label>
+                                <textarea data-ng-model="createBash.description" data-md-maxlength="256"></textarea>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Date & time of the bash</label>
+                                <textarea data-ng-model="createBash.dateTime" required data-md-maxlength="256"></textarea>
+                            </md-input-container>
+                        </div>
+                        <div class="md-dialog-content" layout="column">
+                            <md-input-container>
+                                <label>Image URL</label>
+                                <textarea data-ng-model="createBash.image"></textarea>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Title of the image</label>
+                                <textarea data-ng-model="createBash.imageTitle"></textarea>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Description of the image</label>
+                                <textarea data-ng-model="createBash.imageDescription" data-md-maxlength="256"></textarea>
+                            </md-input-container>
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button data-ng-if="createBash.selectedBash.id != null" data-ng-click="createBash.deleteBash(createBash.selectedBash)">Delete</md-button>
+            <span flex></span>
+            <md-button data-ng-if="createBash.selectedBash.id != null" data-ng-click="createBash.updateBash(createBash.selectedBash)">Update</md-button>
+            <md-button data-ng-if="createBash.selectedBash.id == null" data-ng-click="createBash.createNewBash()">Create</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

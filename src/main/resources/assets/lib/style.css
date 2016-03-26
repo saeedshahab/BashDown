@@ -1,0 +1,59 @@
+#container {
+    max-width: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+#countdown {
+    font-size: 3em;
+    font-family: monospace;
+    font-weight: bold;
+    margin-bottom: 1em;
+    color: #373B1C;
+}
+
+#heading {
+    font-size: 2em;
+    margin: 1em 0;
+    color: #650000;
+}
+
+#image-name-title {
+    margin: 2em 0 1em;
+}
+
+#image {
+    padding: 1em;
+}
+
+#name {
+    font-family: cursive;
+    font-size: 1.3em;
+    margin: 0 0 0.5em;
+    color: #032142;
+}
+
+#name-title {
+    margin: 0 0 0.5em;
+    color: #052B53;
+}
+
+#text {
+    margin: 2em 0 0;
+}
+
+#date {
+    margin-top: 2em;
+    font-size: 1.2em;
+}
+
+.center {
+    text-align: center;
+}
+
+.dragover {
+    outline: 2px dotted #AAAAAA;
+}

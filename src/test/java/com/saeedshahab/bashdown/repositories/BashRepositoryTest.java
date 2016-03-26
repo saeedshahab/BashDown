@@ -3,6 +3,7 @@ package com.saeedshahab.bashdown.repositories;
 import com.google.common.base.Optional;
 import com.saeedshahab.bashdown.models.Bash;
 import com.saeedshahab.bashdown.wrappers.DatabaseWrapper;
+import io.dropwizard.jackson.Jackson;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -27,7 +28,7 @@ public class BashRepositoryTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        bashRepository = new BashRepository(databaseWrapper);
+        bashRepository = new BashRepository(databaseWrapper, Jackson.newObjectMapper());
 
         bash = new Bash();
     }
@@ -160,6 +161,44 @@ public class BashRepositoryTest {
                 .thenThrow(new RuntimeException("database fail"));
 
         Long count = bashRepository.delete(id);
+
+        assertThat(count).isEqualTo(-1L);
+        verify(databaseWrapper, times(1)).findAndUpdate(
+                anyMapOf(String.class, Object.class),
+                anyMapOf(String.class, Object.class),
+                eq(Bash.class));
+    }
+
+    @Test
+    public void testUpdatePass() throws Exception {
+        String id = UUID.randomUUID().toString();
+
+        when(databaseWrapper.findAndUpdate(
+                anyMapOf(String.class, Object.class),
+                anyMapOf(String.class, Object.class),
+                eq(Bash.class)))
+                .thenReturn(1L);
+
+        Long count = bashRepository.update(id, bash);
+
+        assertThat(count).isEqualTo(1L);
+
+        verify(databaseWrapper, times(1)).findAndUpdate(
+                anyMapOf(String.class, Object.class),
+                anyMapOf(String.class, Object.class),
+                eq(Bash.class));
+    }
+
+    @Test
+    public void testUpdateFail() throws Exception {
+        String id = UUID.randomUUID().toString();
+        when(databaseWrapper.findAndUpdate(
+                anyMapOf(String.class, Object.class),
+                anyMapOf(String.class, Object.class),
+                eq(Bash.class)))
+                .thenThrow(new RuntimeException("database fail"));
+
+        Long count = bashRepository.update(id, bash);
 
         assertThat(count).isEqualTo(-1L);
         verify(databaseWrapper, times(1)).findAndUpdate(

@@ -1,5 +1,7 @@
 package com.saeedshahab.bashdown.repositories;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
 import com.saeedshahab.bashdown.models.Bash;
 import com.saeedshahab.bashdown.wrappers.DatabaseWrapper;
@@ -14,10 +16,12 @@ public class BashRepository {
     private static final Logger logger = LoggerFactory.getLogger(BashRepository.class);
 
     private final DatabaseWrapper<?> databaseWrapper;
+    private final ObjectMapper objectMapper;
 
     @Inject
-    public BashRepository(DatabaseWrapper databaseWrapper) {
+    public BashRepository(DatabaseWrapper databaseWrapper, ObjectMapper objectMapper) {
         this.databaseWrapper = databaseWrapper;
+        this.objectMapper = objectMapper;
     }
 
     public Optional<Bash> create(Bash bash) {
@@ -61,6 +65,22 @@ public class BashRepository {
         } catch (Exception e) {
             count = -1L;
             logger.error("Database operation failed to delete bash with query: {}, update: {}", query, update, e);
+        }
+
+        return count;
+    }
+
+    public Long update(String id, Bash bash) {
+        Long count;
+
+        Map<String, Object> query = Collections.singletonMap("id", id);
+        Map<String, Object> update = objectMapper.convertValue(bash, new TypeReference<Map<String, Object>>() {});
+
+        try {
+            count = databaseWrapper.findAndUpdate(query, update, Bash.class);
+        } catch (Exception e) {
+            count = -1L;
+            logger.error("Database operation failed to update bash with query: {}, update: {}", query, update, e);
         }
 
         return count;

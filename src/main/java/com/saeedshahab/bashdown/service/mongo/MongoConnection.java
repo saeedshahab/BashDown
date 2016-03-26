@@ -40,7 +40,7 @@ public class MongoConnection implements DatabaseConnection<MongoDatabase> {
         MongoClient mongo = new MongoClient(
                 new ServerAddress(databaseHost, databasePort),
                 Collections.singletonList(MongoCredential.createCredential(databaseName, databaseName, databaseName.toCharArray())),
-                clientOptions);
+                clientOptionsindex);
         database = mongo.getDatabase(databaseName);
     }
 

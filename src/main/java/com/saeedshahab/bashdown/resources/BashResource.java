@@ -46,6 +46,25 @@ public class BashResource {
         }
     }
 
+    @POST
+    @Path("/id/{id}/update")
+    @RolesAllowed(ADMIN)
+    public Response updateBash(@PathParam("id") String id, @Valid Bash bash) throws JsonProcessingException {
+        Long response = bashRepository.update(id, bash);
+
+        if (response > 0L) {
+            return Response.ok(Collections.singletonMap("success", String.format("Updated bash with id %s", id))).build();
+        } else if (response == 0L) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(Collections.singletonMap("error", String.format("No bash found with id %s", id)))
+                    .build();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Collections.singletonMap("error", String.format("Sorry, Failed to delete bash with id: %s. Please try again in some time", id)))
+                    .build();
+        }
+    }
+
     @GET
     @Path("/id/{id}")
     public Response getBash(@PathParam("id") String id) throws JsonProcessingException {
@@ -74,7 +93,7 @@ public class BashResource {
         if (bashOuts.size() > 0) {
             return Response.ok(objectMapper.writeValueAsString(bashOuts)).build();
         } else {
-            return Response.status(Response.Status.NOT_FOUND)
+            return Response.status(Response.Status.NO_CONTENT)
                     .entity(Collections.singletonMap("error", "No active bash found"))
                     .build();
         }
@@ -94,7 +113,7 @@ public class BashResource {
                     .build();
         } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(Collections.singletonMap("error", String.format("Sorry, Failed to delete Bash with id: %s. Please try again in some time", id)))
+                    .entity(Collections.singletonMap("error", String.format("Sorry, Failed to delete bash with id: %s. Please try again in some time", id)))
                     .build();
         }
     }
