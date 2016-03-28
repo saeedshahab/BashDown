@@ -1,3 +1,10 @@
 language: java
 jdk:
   - oraclejdk8
+
+deploy:
+  provider: openshift
+  user: "saeed.0007@gmail.com"
+  password: "9058cc71c91f9e9f9336b989d7be0d2c"
+  domain: saeedshahab
+  app: bashdown
