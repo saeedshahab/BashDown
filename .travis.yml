@@ -1,10 +1,12 @@
 language: java
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 deploy:
   provider: openshift
-  user: "saeed.0007@gmail.com"
-  password: "9058cc71c91f9e9f9336b989d7be0d2c"
-  domain: saeedshahab
+  user: saeed.0007@gmail.com
+  password:
+    secure: c9RJn3o2J5yMfQHnf+TT0kSZl/3IyMp3P7ADrWj907JQioZLzBbz4nyPhWl2/EcFtlII5Gum9mjF4qudNhS2t9DDIxJFEPd3IG7O7+vozLceXME6Gx7k2LHYuuF8ntb/Y3LA4OW5p7YWT1/mvBcJMzpIB9gQi3AmUzjxbgYrtMq2E9BFBA754FTJWf1w8I2vEnsyQs/Th+3dLWUtY08TK6sYqHj4vvXaGH+XUc8GcmWHovKGIRbUk1clTCpoNtcVYJ2l3UeEDO7xvC0ddwyqSYHAGm5OU6RLp6myAJhABfcrsxOyzvAxypR72S2yY7rj12DghKoQoV6mBx6hHNYlsrGmOyXEXt9RofK0M3EbFTSm+g3kYkXxWAzu8XJlIlQbusBU0Ad/B9/e0CvfTBkAcvpS5JsJqzyqh7kNDyNhnpsDbmL5cx3A9+feK6lxWSmB0Vac3OXUJCPG2L+tKWnUA9iwwXhxhIQkMLL59bkeD6indkQPVPqQSzpP+iBMAWQI3I3sqMTKMy89h/uVnRtd4g8R01UtWgPaYSFQ5Tq+SS33zRF39n5zq1fYFm1AAFrCP5ybhsCIG7cpfpIAiIz8ZANlEBDJfgHYTCuBegPTtURr8UHA9HFJ9qQsI8J1S2B0qkmEpwVQX11SG1TV4vqMb9+m/h5rtQG81+lGU96n5b4=
   app: bashdown
+  domain: saeedshahab
+  on:
+    repo: saeedshahab/BashDown
