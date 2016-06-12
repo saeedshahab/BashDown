@@ -1,5 +1,8 @@
 server:
   rootPath: "/api/*"
+  applicationConnectors:
+  - type: http
+    port: ${PORT:-8080}
 
 databaseHost: "ds053944.mlab.com"
 databasePort: 53944
