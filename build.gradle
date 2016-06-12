@@ -34,7 +34,7 @@ dependencies {
 mainClassName = 'com.saeedshahab.bashdown.core.BashApplication'
 
 run {
-    args 'server', 'local.yml'
+    args 'server', 'server.yml'
 }
 
 task stage {
