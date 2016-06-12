@@ -1,0 +1,12 @@
+server:
+  rootPath: "/api/*"
+
+databaseHost: "ds053944.mlab.com"
+databasePort: 53944
+databaseName: "bashdown"
+databaseClass: "com.saeedshahab.bashdown.wrappers.mongo.MongoWrapper"
+
+logging:
+  level: INFO
+  appenders:
+  - type: console
