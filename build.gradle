@@ -37,6 +37,10 @@ run {
     args 'server', 'local.yml'
 }
 
+task stage {
+  dependsOn build
+}
+
 jacoco {
     toolVersion = '0.7.6.201602180812'
 }
