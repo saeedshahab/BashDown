@@ -4,9 +4,9 @@ server:
   - type: http
     port: ${PORT:-8080}
 
-databaseHost: "ds053944.mlab.com"
-databasePort: 53944
-databaseName: "bashdown"
+databaseHost: ${DB_HOST}
+databasePort: ${DB_PORT}
+databaseName: ${DB_NAME}
 databaseClass: "com.saeedshahab.bashdown.wrappers.mongo.MongoWrapper"
 
 logging:
